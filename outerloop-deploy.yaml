@@ -1,0 +1,25 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: my-java-vertx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-vertx-app
+  template:
+    metadata:
+      labels:
+        app: java-vertx-app
+    spec:
+      containers:
+        - name: my-java-vertx
+          image: java-vertx-image:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
