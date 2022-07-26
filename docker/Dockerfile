@@ -7,12 +7,12 @@ COPY pom.xml .
 RUN mvn dependency:go-offline
 
 COPY src src
-RUN mvn package -Dmaven.test.skip=true -Dvertx.disableFileCaching=true -Dvertx.disableFileCPResolving=true
+RUN mvn package -Dmaven.test.skip=true
 
 FROM openjdk:11-jdk
+ENV JAVA_OPTIONS="-Dvertx.disableFileCaching=true -Dvertx.disableFileCPResolving=true -Dserver.port=8080"
 
 COPY --from=0 /build/target/gateway-1.0-SNAPSHOT.jar /app/target/gateway-1.0-SNAPSHOT.jar
-USER root
 
 EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "/app/target/gateway-1.0-SNAPSHOT.jar", "--server.port=8080", "--vertx.disableFileCaching=true", "--vertx.disableFileCPResolving=true" ]
+ENTRYPOINT [ "java", "-jar", "/app/target/gateway-1.0-SNAPSHOT.jar", "--server.port=8080"]
