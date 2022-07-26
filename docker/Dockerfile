@@ -12,6 +12,7 @@ RUN mvn package -Dmaven.test.skip=true -Dvertx.disableFileCaching=true -Dvertx.d
 FROM openjdk:11-jdk
 
 COPY --from=0 /build/target/gateway-1.0-SNAPSHOT.jar /app/target/gateway-1.0-SNAPSHOT.jar
+USER root
 
 EXPOSE 8080
 ENTRYPOINT [ "java", "-jar", "/app/target/gateway-1.0-SNAPSHOT.jar", "--server.port=8080", "--vertx.disableFileCaching=true", "--vertx.disableFileCPResolving=true" ]
