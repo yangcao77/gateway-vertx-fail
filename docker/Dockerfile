@@ -12,6 +12,7 @@ RUN mvn package -Dmaven.test.skip=true
 FROM openjdk:11-jdk
 
 COPY --from=0 /build/target/gateway-1.0-SNAPSHOT.jar /app/target/gateway-1.0-SNAPSHOT.jar
+RUN mkdir -p /app/cacheDir
 
 EXPOSE 8080
-ENTRYPOINT [ "java", "-jar", "/app/target/gateway-1.0-SNAPSHOT.jar", "--server.port=8080", "-Dvertx.disableFileCaching=true", "-Dvertx.disableFileCPResolving=true"]
+ENTRYPOINT [ "java", "-jar", "/app/target/gateway-1.0-SNAPSHOT.jar", "--server.port=8080", "-Dvertx.cacheDirBase=/app/cacheDir"]
